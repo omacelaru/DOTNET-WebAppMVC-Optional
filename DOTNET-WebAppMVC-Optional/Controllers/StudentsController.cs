@@ -11,10 +11,10 @@ namespace Lab2_24.Controllers
         public static List<Student> students = new List<Student>
         {
             new Student { Id = 1, Name = "Ana", Age = 21},
-            new Student { Id = 1, Name = "Maria", Age = 19},
-            new Student { Id = 1, Name = "Vlad", Age = 22},
-            new Student { Id = 1, Name = "Florin", Age = 25},
-            new Student { Id = 1, Name = "Marian", Age = 20},
+            new Student { Id = 2, Name = "Maria", Age = 19},
+            new Student { Id = 3, Name = "Vlad", Age = 22},
+            new Student { Id = 4, Name = "Florin", Age = 25},
+            new Student { Id = 5, Name = "Marian", Age = 20},
         };
 
         // endpoint 
@@ -41,6 +41,35 @@ namespace Lab2_24.Controllers
             var studentIndex = students.FindIndex( x => x.Id == student.Id);
             students.RemoveAt(studentIndex);
             return students;
+        }
+        
+        //delete by id
+        [HttpDelete]
+        [Route("{id}")]
+        public List<Student> Delete(int id)
+        {
+            var studentIndex = students.FindIndex( x => x.Id == id);
+            students.RemoveAt(studentIndex);
+            return students;
+        }
+        
+        //get getAllOrdered
+        [HttpGet]
+        [Route("ordered")]
+        public List<Student> GetAllOrdered([FromQuery] string criteria)
+        {
+            if (criteria == "name")
+            {
+                return students.OrderBy(o => o.Name).ToList();
+            }
+            else if (criteria == "age")
+            {
+                return students.OrderBy(o => o.Age).ToList();
+            }
+            else
+            {
+                return students;
+            }
         }
     }
 }
